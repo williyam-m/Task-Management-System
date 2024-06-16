@@ -2,10 +2,49 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Profile
+from .models import Profile, Task
 
 
 # Create your views here.
+
+@login_required
+def dashboard(request):
+    tasks = Task.objects.filter(created_by = request.user.id)
+    pending_tasks = tasks.filter(status='pending')
+    completed_tasks = tasks.filter(status='completed')
+
+    context = {
+        'total_tasks': tasks.count(),
+        'pending_tasks': pending_tasks.count(),
+        'completed_tasks': completed_tasks.count(),
+        'pending_task_list': pending_tasks,
+        'completed_task_list': completed_tasks,
+    }
+    return render(request, 'dashboard.html', context)
+
+@login_required
+def completeTask(request, task_id):
+    task = Task.objects.get(id=task_id)
+    task.status = 'completed'
+    task.save()
+    messages.success(request, 'Task marked as completed.')
+    return redirect('dashboard')
+
+
+@login_required
+def addTask(request):
+    if request.method == 'POST':
+        task_name = request.POST['task_name']
+        task_description = request.POST['task_description']
+        assigned_to = request.POST['assigned_to']
+
+        user_model = User.objects.get(username=request.user.username)
+        task = Task.objects.create(created_by = user_model, task_name=task_name, assigned_to=assigned_to, task_description=task_description)
+        task.save()
+        return redirect('dashboard')
+
+    return render(request, 'add_task.html')
+
 
 def home(request):
 

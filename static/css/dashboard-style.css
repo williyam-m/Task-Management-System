@@ -1,0 +1,102 @@
+body {
+            font-family: Arial, sans-serif;
+            background-color: #fdf5e6;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header, footer {
+            background-color: #ff9800;
+            color: white;
+            text-align: center;
+            padding: 5px 0;
+            font-size: 14px;
+            width: 100%;
+            position: fixed;
+        }
+        header {
+            top: 0;
+        }
+        footer {
+            bottom: 0;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        .content {
+            flex: 1;
+            margin-top: 50px;
+            padding: 20px;
+        }
+        .tasks-count {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .task-box {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            flex: 1;
+            margin: 0 10px;
+        }
+        .button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff9800;
+            color: white;
+            font-size: 16px;
+            text-decoration: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background-color: #e68900;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #ff9800;
+            color: white;
+        }
+        td.actions {
+            display: flex;
+            gap: 5px;
+        }
+        .action-button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            color: white;
+            font-size: 12px;
+            text-decoration: none;
+            text-align: center;
+        }
+        .edit-button {
+            background-color: #4CAF50;
+        }
+        .delete-button {
+            background-color: #f44336;
+        }
+        .view-button {
+            background-color: #2196F3;
+        }
+        .complete-button {
+            background-color: #9C27B0;
+        }

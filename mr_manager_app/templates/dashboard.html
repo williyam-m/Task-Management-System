@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard-style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div>Mr Manager</div>
+        </div>
+    </header>
+    <div class="content">
+        <div class="tasks-count">
+            <div class="task-box">Total Tasks: {{ total_tasks }}</div>
+            <div class="task-box">Pending Tasks: {{ pending_tasks }}</div>
+            <div class="task-box">Completed Tasks: {{ completed_tasks }}</div>
+        </div>
+        <a href="add_task" class="button">Add Task</a>
+        <h2>Pending Tasks</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Created Date</th>
+                    <th>Created By</th>
+                    <th>Task Name</th>
+                    <th>Task Description</th>
+                    <th>Assigned To</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in pending_task_list %}
+                <tr>
+                    <td>{{ task.created_date }}</td>
+                    <td>{{ task.created_by.username }}</td>
+                    <td>{{ task.task_name }}</td>
+                    <td>{{ task.task_description }}</td>
+                    <td>{{ task.assigned_to }}</td>
+                    <td>{{ task.status }}</td>
+                    <td class="actions">
+                         <a href="/edit_task/{{task.id}}" class="action-button edit-button">Edit</a>
+                        <a href="/delete_task/{{task.id}}" class="action-button delete-button">Delete</a>
+                        <a href="/view_task/{{task.id}}" class="action-button view-button">View</a>
+                        <a href="/complete_task/{{task.id}}" class="action-button complete-button">Complete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h2>Completed Tasks</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Created Date</th>
+                    <th>Created By</th>
+                    <th>Task Name</th>
+                    <th>Task Description</th>
+                    <th>Assigned To</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in completed_task_list %}
+                <tr>
+                    <td>{{ task.created_date }}</td>
+                    <td>{{ task.created_by.username }}</td>
+                    <td>{{ task.task_name }}</td>
+                    <td>{{ task.task_description }}</td>
+                    <td>{{ task.assigned_to }}</td>
+                    <td>{{ task.status }}</td>
+                    <td class="actions">
+                        <a href="/edit_task/{{task.id}}" class="action-button edit-button">Edit</a>
+                        <a href="/delete_task/{{task.id}}" class="action-button delete-button">Delete</a>
+                        <a href="/view_task/{{task.id}}" class="action-button view-button">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        <p>&copy; 2024 Mr Manager. All rights reserved.</p>
+    </footer>
+</body>
+</html>
