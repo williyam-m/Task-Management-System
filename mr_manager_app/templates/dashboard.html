@@ -39,7 +39,7 @@
                     <td>{{ task.created_date }}</td>
                     <td>{{ task.created_by.username }}</td>
                     <td>{{ task.task_name }}</td>
-                    <td>{{ task.task_description }}</td>
+                    <td>{{ task.task_description|slice:":20" }}{% if task.task_description|length > 20 %}...{% endif %}</td>
                     <td>{{ task.assigned_to }}</td>
                     <td>{{ task.status }}</td>
                     <td class="actions">
@@ -71,7 +71,7 @@
                     <td>{{ task.created_date }}</td>
                     <td>{{ task.created_by.username }}</td>
                     <td>{{ task.task_name }}</td>
-                    <td>{{ task.task_description }}</td>
+                    <td>{{ task.task_description|slice:":20" }}{% if task.task_description|length > 20 %}...{% endif %}</td>
                     <td>{{ task.assigned_to }}</td>
                     <td>{{ task.status }}</td>
                     <td class="actions">
@@ -83,7 +83,7 @@
                 {% endfor %}
             </tbody>
         </table>
-    </div>
+    </div><br><br><br><br>
     <footer>
         <p>&copy; 2024 Mr Manager. All rights reserved.</p>
     </footer>

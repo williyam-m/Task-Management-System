@@ -46,6 +46,30 @@ def addTask(request):
     return render(request, 'add_task.html')
 
 
+@login_required
+def editTask(request, task_id):
+    task = Task.objects.get(id=task_id)
+    if request.method == 'POST':
+        task_name = request.POST['task_name']
+        task_description = request.POST['task_description']
+        assigned_to = request.POST['assigned_to']
+
+        user_model = User.objects.get(username=request.user.username)
+
+
+        task.task_name=task_name
+        task.assigned_to = assigned_to
+        task.task_description = task_description
+        task.save()
+        return redirect('dashboard')
+
+    return render(request, 'edit_task.html', {'task' : task})
+
+
+def viewTask(request, task_id):
+    task = Task.objects.get(id=task_id)
+    return render(request, 'view_task.html', {'task': task})
+
 def home(request):
 
   return render(request, 'home.html')
