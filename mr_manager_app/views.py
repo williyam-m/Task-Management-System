@@ -7,7 +7,7 @@ import os
 
 # Create your views here.
 
-@login_required
+@login_required(login_url='login')
 def dashboard(request):
     user_model = User.objects.get(username=request.user.username)
     user = Profile.objects.get(user=user_model)
@@ -25,7 +25,7 @@ def dashboard(request):
     }
     return render(request, 'dashboard.html', context)
 
-@login_required
+@login_required(login_url='login')
 def completeTask(request, task_id):
     task = Task.objects.get(id=task_id)
     task.status = 'completed'
@@ -34,7 +34,15 @@ def completeTask(request, task_id):
     return redirect('dashboard')
 
 
-@login_required
+@login_required(login_url='login')
+def deleteTask(request, task_id):
+    task = Task.objects.get(id=task_id)
+    task.delete()
+
+    return redirect('dashboard')
+
+
+@login_required(login_url='login')
 def addTask(request):
     if request.method == 'POST':
         task_name = request.POST['task_name']
@@ -49,7 +57,7 @@ def addTask(request):
     return render(request, 'add_task.html')
 
 
-@login_required
+@login_required(login_url='login')
 def editTask(request, task_id):
     task = Task.objects.get(id=task_id)
     if request.method == 'POST':
@@ -74,13 +82,15 @@ def viewTask(request, task_id):
     return render(request, 'view_task.html', {'task': task})
 
 
-@login_required
+@login_required(login_url='login')
 def editProfileView(request):
     if request.method == 'POST':
         profile = Profile.objects.get(user=request.user)
+
         if profile.profile_img:
             if len(profile.profile_img) > 0:
                 os.remove(profile.profile_img.path)
+
         profile.profile_img = request.FILES['profile_img']
         profile.save()
 
@@ -121,6 +131,7 @@ def register(request):
                 user_model = User.objects.get(username=username)
                 new_profile = Profile.objects.create(user=user_model, id_user=user_model.id)
                 new_profile.save()
+
                 return redirect('/')
         else:
             messages.info(request, 'Password Not Matching')
@@ -151,4 +162,5 @@ def login(request):
 @login_required(login_url='login')
 def logout(request):
     auth.logout(request)
+
     return redirect('/login')
