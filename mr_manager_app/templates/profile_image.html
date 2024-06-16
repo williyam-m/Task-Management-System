@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile Image</title>
+    <link rel="stylesheet" href="{% static 'css/profile-image-style.css' %}">
+</head>
+<body>
+    <header><p>Edit Profile Image</p></header>
+    <div class="content">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-field">
+                <label for="id_profile_img">Profile Image:</label>
+                <input type="file" name="profile_img" id="id_profile_img" required>
+            </div>
+            <button type="submit" class="button">Upload</button>
+        </form>
+    </div>
+    <footer><p>&copy; 2024 Mr Manager. All rights reserved.</p></footer>
+</body>
+</html>

@@ -3,17 +3,20 @@ from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Task
-
+import os
 
 # Create your views here.
 
 @login_required
 def dashboard(request):
-    tasks = Task.objects.filter(created_by = request.user.id)
+    user_model = User.objects.get(username=request.user.username)
+    user = Profile.objects.get(user=user_model)
+    tasks = Task.objects.filter(created_by = user_model.id)
     pending_tasks = tasks.filter(status='pending')
     completed_tasks = tasks.filter(status='completed')
 
     context = {
+        'user' : user,
         'total_tasks': tasks.count(),
         'pending_tasks': pending_tasks.count(),
         'completed_tasks': completed_tasks.count(),
@@ -27,7 +30,7 @@ def completeTask(request, task_id):
     task = Task.objects.get(id=task_id)
     task.status = 'completed'
     task.save()
-    messages.success(request, 'Task marked as completed.')
+
     return redirect('dashboard')
 
 
@@ -69,6 +72,21 @@ def editTask(request, task_id):
 def viewTask(request, task_id):
     task = Task.objects.get(id=task_id)
     return render(request, 'view_task.html', {'task': task})
+
+
+@login_required
+def editProfileView(request):
+    if request.method == 'POST':
+        profile = Profile.objects.get(user=request.user)
+        if profile.profile_img:
+            if len(profile.profile_img) > 0:
+                os.remove(profile.profile_img.path)
+        profile.profile_img = request.FILES['profile_img']
+        profile.save()
+
+        return redirect('dashboard')
+    return render(request, 'profile_image.html')
+
 
 def home(request):
 

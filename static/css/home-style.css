@@ -12,8 +12,8 @@ body {
             background-color: #ff9800;
             color: white;
             text-align: center;
-            padding: 5px 0;
-            font-size: 14px;
+            height : 8%;
+            font-size:14px;
             width: 100%;
             position: fixed;
             top: 0;
@@ -22,8 +22,8 @@ body {
             background-color: #ff9800;
             color: white;
             text-align: center;
-            padding: 5px 0;
-            font-size: 14px;
+            height : 8%;
+            font-size:14px;
             width: 100%;
             position: fixed;
             bottom: 0;

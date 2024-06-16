@@ -10,9 +10,8 @@ body {
             background-color: #ff9800;
             color: white;
             text-align: center;
-            padding: 5px 0;
-            font-size: 14px;
             width: 100%;
+            font-size:12px;
             position: fixed;
         }
         header {
@@ -20,11 +19,6 @@ body {
         }
         footer {
             bottom: 0;
-        }
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            padding: 0 20px;
         }
         .content {
             flex: 1;
@@ -58,6 +52,10 @@ body {
         }
         .button:hover {
             background-color: #e68900;
+        }
+        .profile-buttons .button {
+        margin-top: 10px;
+        font-size: 14px;
         }
         table {
             width: 100%;
@@ -99,4 +97,25 @@ body {
         }
         .complete-button {
             background-color: #9C27B0;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+        }
+        .profile-section {
+            display: flex;
+            align-items: center;
+        }
+        .profile-img {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            margin-right: 5px;
+            margin-top: 8px;
+        }
+        .profile-buttons {
+            display: flex;
+            gap: 10px;
         }

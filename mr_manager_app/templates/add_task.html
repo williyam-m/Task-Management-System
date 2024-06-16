@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/add-task-style.css' %}">
 </head>
 <body>
-    <header><h4>Mr Manager</h4></header>
+    <header><p>Mr Manager</p></header>
     <div class="content">
         <h2>Add Task</h2>
         <form method="post">
@@ -22,12 +22,12 @@
                 <textarea name="task_description" id="id_task_description" required></textarea>
             </div>
             <div class="form-field">
-                <label for="id_assigned_to">assigned_to (email):</label>
+                <label for="id_assigned_to">Assigned to ( user email id ):</label>
                 <input type="email" name="assigned_to" id="id_assigned_to" required>
             </div>
             <button type="submit" class="button">Add Task</button>
         </form>
-    </div>
+    </div><br><br><br>
     <footer><p>&copy; 2024 Mr Manager. All rights reserved.</p></footer>
 </body>
 </html>

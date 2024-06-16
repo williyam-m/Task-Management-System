@@ -11,15 +11,22 @@
     <header>
         <div class="header-content">
             <div>Mr Manager</div>
+            <div class="profile-section">
+                <img src="{{ user.profile_img.url }}" alt="" class="profile-img">
+                <div class="profile-buttons">
+                    <a href="/edit_profile_view" class="button">Edit Profile Image</a>
+                    <a href="/logout" class="button">Logout</a>
+                </div>
+            </div>
         </div>
-    </header>
+    </header><br>
     <div class="content">
         <div class="tasks-count">
             <div class="task-box">Total Tasks: {{ total_tasks }}</div>
             <div class="task-box">Pending Tasks: {{ pending_tasks }}</div>
             <div class="task-box">Completed Tasks: {{ completed_tasks }}</div>
-        </div>
-        <a href="add_task" class="button">Add Task</a>
+        </div><br>
+        <div align="right"><a href="add_task" class="button">Add Task</a></div>
         <h2>Pending Tasks</h2>
         <table>
             <thead>
@@ -51,7 +58,7 @@
                 </tr>
                 {% endfor %}
             </tbody>
-        </table>
+        </table><br>
         <h2>Completed Tasks</h2>
         <table>
             <thead>
@@ -69,7 +76,7 @@
                 {% for task in completed_task_list %}
                 <tr>
                     <td>{{ task.created_date }}</td>
-                    <td>{{ task.created_by.username }}</td>
+                   <td>{{ task.created_by.username }}</td>
                     <td>{{ task.task_name }}</td>
                     <td>{{ task.task_description|slice:":20" }}{% if task.task_description|length > 20 %}...{% endif %}</td>
                     <td>{{ task.assigned_to }}</td>
@@ -84,8 +91,6 @@
             </tbody>
         </table>
     </div><br><br><br><br>
-    <footer>
-        <p>&copy; 2024 Mr Manager. All rights reserved.</p>
-    </footer>
+    <footer><p>&copy; 2024 Mr Manager. All rights reserved.</p></footer>
 </body>
 </html>
