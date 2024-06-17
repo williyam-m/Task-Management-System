@@ -3,6 +3,7 @@ from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Task
+from django.db.models import Q
 import os
 
 # Create your views here.
@@ -11,7 +12,8 @@ import os
 def dashboard(request):
     user_model = User.objects.get(username=request.user.username)
     user = Profile.objects.get(user=user_model)
-    tasks = Task.objects.filter(created_by = user_model.id)
+    tasks = Task.objects.filter(Q(created_by=user_model.id) | Q(assigned_to=user_model.email)).distinct()
+
     pending_tasks = tasks.filter(status='pending')
     completed_tasks = tasks.filter(status='completed')
 
@@ -76,7 +78,7 @@ def editTask(request, task_id):
 
     return render(request, 'edit_task.html', {'task' : task})
 
-
+@login_required(login_url='login')
 def viewTask(request, task_id):
     task = Task.objects.get(id=task_id)
     return render(request, 'view_task.html', {'task': task})

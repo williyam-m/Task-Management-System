@@ -83,7 +83,13 @@
             <p><strong>Description:</strong> {{ task.task_description }}</p><br>
             <p><strong>Created Date:</strong> {{ task.created_date }}</p><br>
             <p><strong>Created By:</strong> {{ task.created_by.username }}</p><br>
-            <p><strong>Assigned To:</strong> {{ task.assigned_to }}</p><br>
+            <p><strong>Assigned To:</strong>
+                {% if task.assigned_to == request.user.email %}
+                    <p style="color:green;">YOUR TASK</p>
+                {% else %}
+                    <p>{{ task.assigned_to }}</p>
+                {% endif %}
+            </p><br>
             <p><strong>Status:</strong> {{ task.status }}</p><br>
             <div>
                 <a href="/edit_task/{{task.id}}" class="button">Edit</a>

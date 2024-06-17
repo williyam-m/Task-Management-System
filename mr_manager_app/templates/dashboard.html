@@ -41,13 +41,17 @@
                 </tr>
             </thead>
             <tbody>
-                {% for task in pending_task_list %}
+                {% for task in pending_task_list reversed %}
                 <tr>
                     <td>{{ task.created_date }}</td>
                     <td>{{ task.created_by.username }}</td>
                     <td>{{ task.task_name }}</td>
                     <td>{{ task.task_description|slice:":20" }}{% if task.task_description|length > 20 %}...{% endif %}</td>
+                    {% if task.assigned_to == request.user.email %}
+                    <td style="color:green;">YOUR TASK</td>
+                    {% else %}
                     <td>{{ task.assigned_to }}</td>
+                    {% endif %}
                     <td>{{ task.status }}</td>
                     <td class="actions">
                          <a href="/edit_task/{{task.id}}" class="action-button edit-button">Edit</a>
@@ -73,13 +77,17 @@
                 </tr>
             </thead>
             <tbody>
-                {% for task in completed_task_list %}
+                {% for task in completed_task_list reversed %}
                 <tr>
                     <td>{{ task.created_date }}</td>
                    <td>{{ task.created_by.username }}</td>
                     <td>{{ task.task_name }}</td>
                     <td>{{ task.task_description|slice:":20" }}{% if task.task_description|length > 20 %}...{% endif %}</td>
+                    {% if task.assigned_to == request.user.email %}
+                    <td style="color:green;">YOUR TASK</td>
+                    {% else %}
                     <td>{{ task.assigned_to }}</td>
+                    {% endif %}
                     <td>{{ task.status }}</td>
                     <td class="actions">
                         <a href="/edit_task/{{task.id}}" class="action-button edit-button">Edit</a>
