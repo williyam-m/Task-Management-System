@@ -1,82 +1,14 @@
-<!-- your_app/templates/your_app/view_task.html -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Task</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #fdf5e6;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            justify-content: center;
-            align-items: center;
-        }
-        header, footer {
-            background-color: #ff9800;
-            color: white;
-            text-align: center;
-            padding: 5px 0;
-            font-size: 14px;
-            width: 100%;
-            position: fixed;
-        }
-        header {
-            top: 0;
-        }
-        footer {
-            bottom: 0;
-        }
-        .content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-            margin-bottom: 50px;
-        }
-        .task-details {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 800px;
-            text-align: left;
-        }
-        .task-details h2 {
-            margin-top: 0;
-        }
-        .task-details p {
-            margin: 5px 0;
-        }
-        .button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #ff9800;
-            color: white;
-            font-size: 16px;
-            text-decoration: none;
-            text-align: center;
-            margin-top: 20px;
-        }
-        .button:hover {
-            background-color: #e68900;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/view-task-style.css' %}">
 </head>
 <body>
-    <header>
-        <h1>Mr Manager</h1>
-    </header>
+    <header><p>Mr Manager</p></header>
     <div class="content">
         <div class="task-details">
             <h2>{{ task.task_name }}</h2><br>
@@ -86,23 +18,22 @@
             <p><strong>Assigned To:</strong>
                 {% if task.assigned_to == request.user.email %}
                     <p style="color:green;">YOUR TASK</p>
-                {% else %}
-                    <p>{{ task.assigned_to }}</p>
-                {% endif %}
-            </p><br>
+                {% else %}<p>{{ task.assigned_to }}</p>{% endif %}</p><br>
+
+            <strong>Priority:</strong>
+                    {% if task.priority == "high" %}<p style="color:red;">{{ task.priority }}</p>
+                    {% elif task.priority == "medium" %}<p style="color:orange;">{{ task.priority }}</td>
+                    {% else %}<p style="color:green;">{{ task.priority }}</p>{% endif %}<br>
             <p><strong>Status:</strong> {{ task.status }}</p><br>
-            <div>
-                <a href="/edit_task/{{task.id}}" class="button">Edit</a>
-                <a href="/delete_task/{{task.id}}" class="button" style="background-color: #f44336;">Delete</a>
-                {% if task.status == 'pending' %}
-                    <a href="/complete_task/{{task.id}}" class="button" style="background-color: #9C27B0;">Complete</a>
-                {% endif %}
-                <a href="/dashboard" class="button">Back to Dashboard</a>
+            <p><strong>Due Date:</strong>{{ task.due_date }}</p><br>
+            <p><strong>Completed Date:</strong>
+                     {% if task.completed_date == None %}   -
+                    {% else %}  {{ task.completed_date }}  {% endif %}</p><br>
+        <div>
+           <a href="/dashboard" class="button">Back to Dashboard</a>
             </div>
         </div>
     </div>
-    <footer>
-        <p>&copy; 2024 Mr Manager. All rights reserved.</p>
-    </footer>
+    <footer><p>&copy; 2024 Mr Manager. All rights reserved.</p></footer>
 </body>
 </html>

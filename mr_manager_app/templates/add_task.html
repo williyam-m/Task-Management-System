@@ -11,6 +11,9 @@
     <header><p>Mr Manager</p></header>
     <div class="content">
         <h2>Add Task</h2>
+        {% if messages %}
+            <ul>{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>
+        {% endif %}
         <form method="post">
             {% csrf_token %}
             <div class="form-field">
@@ -25,6 +28,14 @@
                 <label for="id_assigned_to">Assigned to ( user email id ):</label>
                 <input type="email" name="assigned_to" id="id_assigned_to" required>
             </div>
+            <label for="priority">Priority:</label>
+<select id="priority" name="priority" class="priority-select">
+    <option value="high">High</option>
+    <option value="medium">Medium</option>
+    <option value="low">Low</option>
+</select><br><br>
+            <label for="due_date">Due Date:</label>
+<input type="date" id="due_date" name="due_date" class="date-input" value="{{ today }}" min="{{ today }}" required><br>
             <button type="submit" class="button">Add Task</button>
         </form>
     </div><br><br><br>

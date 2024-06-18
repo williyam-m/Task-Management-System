@@ -12,7 +12,7 @@
         <div class="header-content">
             <div>Mr Manager</div>
             <div class="profile-section">
-                <img src="{{ user.profile_img.url }}" alt="" class="profile-img">
+                <img src="{{ user.profile_img.url }}" alt="" class="profile-img"><br>&nbsp;&nbsp;{{ request.user.username }}&nbsp;&nbsp;
                 <div class="profile-buttons">
                     <a href="/edit_profile_view" class="button">Edit Profile Image</a>
                     <a href="/logout" class="button">Logout</a>
@@ -23,11 +23,11 @@
     <div class="content">
         <div class="tasks-count">
             <div class="task-box">Total Tasks: {{ total_tasks }}</div>
-            <div class="task-box">Pending Tasks: {{ pending_tasks }}</div>
-            <div class="task-box">Completed Tasks: {{ completed_tasks }}</div>
+            <div class="task-box">Pending Tasks: <span style="color:red;">{{ pending_tasks }} </span></div>
+            <div class="task-box">Completed Tasks: <span style="color:green;">{{ completed_tasks }} </span></div>
         </div><br>
         <div align="right"><a href="/add_task/" class="button">Add Task</a></div>
-        <h2>Pending Tasks</h2>
+        <h2 style="color:red;">Pending Tasks</h2>
         <table>
             <thead>
                 <tr>
@@ -36,7 +36,9 @@
                     <th>Task Name</th>
                     <th>Task Description</th>
                     <th>Assigned To</th>
+                    <th>Priority</th>
                     <th>Status</th>
+                    <th>Due Date</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -49,30 +51,40 @@
                     <td>{{ task.task_description|slice:":20" }}{% if task.task_description|length > 20 %}...{% endif %}</td>
                     {% if task.assigned_to == request.user.email %}
                     <td style="color:green;">YOUR TASK</td>
-                    {% else %}
-                    <td>{{ task.assigned_to }}</td>
-                    {% endif %}
-                    <td>{{ task.status }}</td>
+                    {% else %}<td>{{ task.assigned_to }}</td>{% endif %}
+
+                    {% if task.priority == "high" %}<td style="color:red;">{{ task.priority }}</td>
+                    {% elif task.priority == "medium" %}<td style="color:orange;">{{ task.priority }}</td>
+                    {% else %}<td style="color:green;">{{ task.priority }}</td>{% endif %}
+                    <td style="color:red;">{{ task.status }}</td>
+                    <td>{{ task.due_date }}</td>
                     <td class="actions">
+                        <a href="/view_task/{{task.id}}" class="action-button view-button">View</a>
+                        {% if task.created_by.username == request.user.username %}
                          <a href="/edit_task/{{task.id}}" class="action-button edit-button">Edit</a>
                         <a href="/delete_task/{{task.id}}" class="action-button delete-button">Delete</a>
-                        <a href="/view_task/{{task.id}}" class="action-button view-button">View</a>
+                        {% endif %}
+                        {% if task.assigned_to == request.user.email %}
                         <a href="/complete_task/{{task.id}}" class="action-button complete-button">Complete</a>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table><br>
-        <h2>Completed Tasks</h2>
+        <h2 style="color:green;">Completed Tasks</h2>
         <table>
             <thead>
-                <tr>
+                 <tr>
                     <th>Created Date</th>
                     <th>Created By</th>
                     <th>Task Name</th>
                     <th>Task Description</th>
                     <th>Assigned To</th>
+                    <th>Priority</th>
                     <th>Status</th>
+                    <th>Due Date</th>
+                    <th>Completed Date</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -85,14 +97,19 @@
                     <td>{{ task.task_description|slice:":20" }}{% if task.task_description|length > 20 %}...{% endif %}</td>
                     {% if task.assigned_to == request.user.email %}
                     <td style="color:green;">YOUR TASK</td>
-                    {% else %}
-                    <td>{{ task.assigned_to }}</td>
-                    {% endif %}
-                    <td>{{ task.status }}</td>
+                    {% else %}<td>{{ task.assigned_to }}</td>{% endif %}
+
+                    {% if task.priority == "high" %}<td style="color:red;">{{ task.priority }}</td>
+                    {% elif task.priority == "medium" %}<td style="color:orange;">{{ task.priority }}</td>
+                    {% else %}<td style="color:green;">{{ task.priority }}</td>{% endif %}
+                    <td style="color:green;">{{ task.status }}</td>
+                    <td>{{ task.due_date }}</td>
+                    <td>{{ task.completed_date }}</td>
                     <td class="actions">
-                        <a href="/edit_task/{{task.id}}" class="action-button edit-button">Edit</a>
-                        <a href="/delete_task/{{task.id}}" class="action-button delete-button">Delete</a>
                         <a href="/view_task/{{task.id}}" class="action-button view-button">View</a>
+                        {% if task.created_by.username == request.user.username %}
+                        <a href="/delete_task/{{task.id}}" class="action-button delete-button">Delete</a>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}

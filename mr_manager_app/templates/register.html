@@ -31,11 +31,7 @@
             <button type="submit">Register</button>
         </form>
         {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
+            <ul>{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>
         {% endif %}
     </div>
 </body>

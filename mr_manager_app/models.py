@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 import uuid
 
 
@@ -19,6 +20,12 @@ class Task(models.Model):
     created_by = models.ForeignKey(User, related_name='tasks_created', on_delete=models.CASCADE)
     assigned_to = models.EmailField()
     status = models.CharField(max_length=10, default='pending')  # completed or pending
+    priority = models.CharField(max_length=10, default="high")
+
+    due_date = models.DateField(default=timezone.now().date())
+    completed_date = models.DateField(blank=True, null=True)
+
 
     def __str__(self):
         return self.task_name
+

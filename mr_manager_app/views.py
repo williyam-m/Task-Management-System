@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Task
 from django.db.models import Q
+from django.utils import timezone
+from datetime import datetime
 import os
 
 # Create your views here.
@@ -30,8 +32,13 @@ def dashboard(request):
 @login_required(login_url='login')
 def completeTask(request, task_id):
     task = Task.objects.get(id=task_id)
-    task.status = 'completed'
-    task.save()
+
+
+    if task.assigned_to == request.user.email:
+        task.status = 'completed'
+        task.completed_date = timezone.now().date()
+
+        task.save()
 
     return redirect('dashboard')
 
@@ -39,7 +46,9 @@ def completeTask(request, task_id):
 @login_required(login_url='login')
 def deleteTask(request, task_id):
     task = Task.objects.get(id=task_id)
-    task.delete()
+
+    if task.created_by.username == request.user.username:
+        task.delete()
 
     return redirect('dashboard')
 
@@ -50,22 +59,45 @@ def addTask(request):
         task_name = request.POST['task_name']
         task_description = request.POST['task_description']
         assigned_to = request.POST['assigned_to']
+        priority = request.POST['priority']
+        due_date = request.POST['due_date']
+
+
+        # only current or future dates
+        if due_date < datetime.now().strftime('%Y-%m-%d'):
+            messages.info(request, 'Date must be valid')
+            return redirect('/add_task/')
+
 
         user_model = User.objects.get(username=request.user.username)
-        task = Task.objects.create(created_by = user_model, task_name=task_name, assigned_to=assigned_to, task_description=task_description)
+
+        task = Task.objects.create(created_by = user_model, task_name=task_name, assigned_to=assigned_to, task_description=task_description, priority = priority, due_date= due_date)
         task.save()
         return redirect('dashboard')
 
-    return render(request, 'add_task.html')
+    today = datetime.now().strftime('%d-%m-%Y')
+    return render(request, 'add_task.html', {'today': today})
 
 
 @login_required(login_url='login')
 def editTask(request, task_id):
     task = Task.objects.get(id=task_id)
+
+    if task.created_by.username != request.user.username:
+        return redirect('dashboard')
+
     if request.method == 'POST':
         task_name = request.POST['task_name']
         task_description = request.POST['task_description']
         assigned_to = request.POST['assigned_to']
+        priority = request.POST['priority']
+        due_date = request.POST['due_date']
+
+
+        # only current or future dates
+        if due_date < datetime.now().strftime('%Y-%m-%d'):
+            messages.info(request, 'Date must be valid')
+            return redirect('/edit_task/' + str(task_id) + '/')
 
         user_model = User.objects.get(username=request.user.username)
 
@@ -73,6 +105,8 @@ def editTask(request, task_id):
         task.task_name=task_name
         task.assigned_to = assigned_to
         task.task_description = task_description
+        task.priority = priority
+        task.due_date = due_date
         task.save()
         return redirect('dashboard')
 
@@ -89,7 +123,7 @@ def editProfileView(request):
     if request.method == 'POST':
         profile = Profile.objects.get(user=request.user)
 
-        if profile.profile_img:
+        if profile.profile_img and profile.profile_img != "/blank-profile-picture.jpg":
             if len(profile.profile_img) > 0:
                 os.remove(profile.profile_img.path)
 
