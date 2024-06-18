@@ -11,7 +11,7 @@
     <header><p>Mr Manager</p></header>
     <div class="container" align="center">
         {% if user.is_authenticated %}
-        <h2>Welcome Back, {{request.user.username}}</h2><br><br>
+        <h2>Welcome, {{request.user.username}}</h2><br><br>
         {% else %}
         <H2>Unlock Your Productivity</H2>
         <p>Organize your tasks, manage time, and achieve more with our powerful tools.</p><br>

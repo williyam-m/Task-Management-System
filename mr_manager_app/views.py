@@ -123,7 +123,7 @@ def editProfileView(request):
     if request.method == 'POST':
         profile = Profile.objects.get(user=request.user)
 
-        if profile.profile_img and profile.profile_img != "/blank-profile-picture.jpg":
+        if profile.profile_img and profile.profile_img != "blank-profile-picture.jpg":
             if len(profile.profile_img) > 0:
                 os.remove(profile.profile_img.path)
 
