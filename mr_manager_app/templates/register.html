@@ -29,7 +29,8 @@
                 <input type="password" name="password1" id="id_password" required>
             </div>
             <button type="submit">Register</button>
-        </form>
+        </form><br>
+        <a href="/login"><p>Do you have an account? Login</p></a>
         {% if messages %}
             <ul>{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>
         {% endif %}
