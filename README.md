@@ -1,10 +1,10 @@
 ## Live Link:
-**https://mrtaskmanager.pythonanywhere.com/ (Deployed on Cloud)**
+https://mrtaskmanager.pythonanywhere.com/ (Deployed on Cloud)
 
 > # Usage Guide
 
 ## Demo Video Link:
-**https://drive.google.com/file/d/1m-JnLUraG4sbx-S_qMJriD9fAWsZxmaw/view?usp=sharing**
+**https://youtu.be/jdX5HX-iUJU**
 
 ## Register or Login:
 ![Screenshot (39)](https://github.com/williyam-m/Task-Management-System/assets/146324543/a57fcda8-1fc8-458c-a48c-609ce6ed23f5)
